@@ -54,11 +54,10 @@ env.Replace(PROGSUFFIX=".elf")
 
 # set up our options
 
-env.Replace(CXXFLAGS=["-mmcu=atmega8",
+env.Replace(CXXFLAGS=["-mmcu=atmega328p",
                       "-Os",
                       "-g",
                       "-flto",
-                      "-DF_CPU=8000000",
                       "-DTRIAC_PULSE_TICKS="+`triac_pulse_ticks`,
                       "-DTICKS_PER_HALF_CYCLE="+`ticks_per_half_cycle`,
                       "-DMARGIN_TICKS="+`margin_ticks`,
@@ -78,7 +77,7 @@ env.Replace(LINKFLAGS=["-Wl,-Map,awreflow2.map",
                        "-mrelax",
                        "-flto",
                        "-Wl,--gc-sections",
-                       "-mmcu=atmega8"])
+                       "-mmcu=atmega328p"])
 
 # compile source code to .elf binary
 
@@ -98,8 +97,8 @@ env.Command("awreflow2.lst",elf,"avr-objdump -S $SOURCE > $TARGET")
 
 # upload target uses avrdude
 
-flash_cmd="avrdude -c usbasp -p m8 -e -U flash:w:awreflow2.hex"
-fuse_cmd="avrdude -c usbasp -p m8 -e -U lfuse:w:0xff:m -U hfuse:w:0xd9:m"
+flash_cmd="avrdude -c dragon_isp -p m328p -e -U flash:w:awreflow2.hex"
+fuse_cmd="avrdude -c dragon_isp -p m328p -e -U lfuse:w:0xff:m -U hfuse:w:0xd9:m"
 
 upload=env.Alias("upload","awreflow2.hex",flash_cmd)
 fuse=env.Alias("fuse","awreflow2.hex",fuse_cmd)

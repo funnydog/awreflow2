@@ -58,12 +58,12 @@ namespace awreflow {
 
     // 9600 baud: (http://wormfood.net/avrbaudcalc.php?postbitrate=9600&postclock=8&hidetables=1)
  
-    UBRRH=0;
-    UBRRL=51;
+    UBRR0H=0;
+    UBRR0L=51;
 
-    UCSRA=0;
-    UCSRB=(1 << RXEN) | (1 << TXEN);                      // enable RX, TX
-    UCSRC=(1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);     // 8-N-1
+    UCSR0A=0;
+    UCSR0B=(1 << RXEN0) | (1 << TXEN0);                   // enable RX, TX
+    UCSR0C=(1 << UCSZ01) | (1 << UCSZ00);                 // 8-N-1
   }
 
 
@@ -78,13 +78,13 @@ namespace awreflow {
     // send the string
 
     for(ptr=command;*ptr;ptr++) {
-      while(!(UCSRA & (1 << UDRE)));
-      UDR=*ptr;
+      while(!(UCSR0A & (1 << UDRE0)));
+      UDR0=*ptr;
     }
 
     // wait for completion then delay 1/10s
 
-    while(!(UCSRA & (1 << UDRE)));
+    while(!(UCSR0A & (1 << UDRE0)));
     MillisecondTimer::delay(100);
   }
 
@@ -102,12 +102,12 @@ namespace awreflow {
 
     // is something ready?
 
-    if((UCSRA & (1 << RXC))==0)
+    if((UCSR0A & (1 << RXC0))==0)
       return Command::NONE;
 
     // move data into storage
 
-    _commandData[_commandPos]=UDR;
+    _commandData[_commandPos]=UDR0;
 
     // any invalid data resets the reading (this command is lost)
 
@@ -169,8 +169,8 @@ namespace awreflow {
     // send out
 
     for(i=0;i<5+1+dataSize;i++) {
-      while(!(UCSRA & (1 << UDRE)));
-      UDR=_commandData[i];
+      while(!(UCSR0A & (1 << UDRE0)));
+      UDR0=_commandData[i];
     }
   }
 

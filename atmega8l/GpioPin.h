@@ -15,25 +15,25 @@ namespace awreflow {
 
   struct GPIOB {
     enum {
-      Port = 0x18,
-      Dir  = 0x17,
-      Pin  = 0x16
+      Port = 0x05,
+      Dir  = 0x04,
+      Pin  = 0x03
     };
   };
 
   struct GPIOC {
     enum {
-      Port = 0x15,
-      Dir  = 0x14,
-      Pin  = 0x13
+      Port = 0x08,
+      Dir  = 0x07,
+      Pin  = 0x06
     };
   };
 
   struct GPIOD {
     enum {
-      Port = 0x12,
-      Dir  = 0x11,
-      Pin  = 0x10
+      Port = 0x0B,
+      Dir  = 0x0A,
+      Pin  = 0x09
     };
   };
 
@@ -242,8 +242,8 @@ namespace awreflow {
 
       // configure the INT0 interrupt
 
-      MCUCR = (1 << ISC01);    // falling edge of INT0
-      GICR = (1 << INT0);      // INT0 enabled
+      EICRA = (1 << ISC01);    // falling edge of INT0
+      EIMSK = (1 << INT0);     // INT0 enabled
     }
   };
 

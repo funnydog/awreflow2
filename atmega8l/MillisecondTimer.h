@@ -40,8 +40,8 @@ namespace awreflow {
 
     // set up timer 0
 
-    TCCR0 |= (1 << CS01);     // CLK/8
-    TIMSK |= (1 << TOIE0);    // Timer0 overflow interrupt
+    TCCR0B |= (1 << CS01);    // CLK/8
+    TIMSK0 |= (1 << TOIE0);   // Timer0 overflow interrupt
   }
 
 

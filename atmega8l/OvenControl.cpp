@@ -27,7 +27,7 @@ ISR(INT0_vect) {
  * Timer1 comparison value A matched
  */
 
-ISR(TIMER2_COMP_vect) {
+ISR(TIMER2_COMPA_vect) {
   awreflow::OvenControlInstance->timerComparatorHandler();
 }
 

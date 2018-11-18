@@ -65,7 +65,7 @@ namespace awreflow {
 
     // enable comparator A and overflow interrupts
 
-    TIMSK |= (1 << OCIE2) | (1 << TOIE2); 
+    TIMSK2 |= (1 << OCIE2A) | (1 << TOIE2);
   }
 
 
@@ -101,7 +101,7 @@ namespace awreflow {
    */
 
    inline void OvenControl::stopTimer() const {
-    TCCR2=0;
+    TCCR2B=0;
    }
 
 
@@ -157,9 +157,9 @@ namespace awreflow {
 
     // counter is acceptable, or has been rounded down to be acceptable
 
-    OCR2=_counter;
+    OCR2A=_counter;
     TCNT2=0;
-    TCCR2=(1 << CS20) | (1 << CS21) | (1 << CS22);       // start timer at 8MHz / 1024 = 128uS per tick
+    TCCR2B=(1 << CS20) | (1 << CS21) | (1 << CS22);      // start timer at 8MHz / 1024 = 128uS per tick
   }
 
 
@@ -192,6 +192,6 @@ namespace awreflow {
    
     // turn off the timer. the zero-crossing handler will restart it
 
-    TCCR2=0;
+    TCCR2B=0;
   }
 }
